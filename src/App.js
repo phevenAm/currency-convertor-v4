@@ -8,6 +8,7 @@ function App() {
   const [selectedRate, setSelectedRate] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [total, setTotal] = useState("");
+
   useEffect(() => {
     (async () => {
       let returnedObj;
@@ -25,41 +26,41 @@ function App() {
     })();
   }, []);
 
-  const sum = () => {
+  useEffect(() => {
     if (selectedRate && inputValue) {
-      console.log("test");
+      console.log(sum(inputValue, selectedRate));
     }
-  };
+  });
 
+  const sum = (a, b) => {
+    setTotal((a * b).toFixed(2));
+  };
   return (
     <div className="app">
-      <select
-        name=""
-        id=""
-        onChange={((e) => setSelectedRate(e.target.value), sum)}
-      >
-        <option value="0">default</option>
-        {countriesData.length > 1 &&
-          countriesData.map(([country, value], index) => {
-            return (
-              <option value={value} key={index}>
-                {country}
-              </option>
-            );
-          })}
-      </select>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) =>
-          e.target.value.match(/[0-9]/gm)
-            ? setInputValue(e.target.value)
-            : alert("please use numbers only")
-        }
-      />
-      <span className="results">£</span>
+      <div className="app__data">
+        <select name="" id="" onChange={(e) => setSelectedRate(e.target.value)}>
+          <option value={0}>default</option>
+          {countriesData.length > 1 &&
+            countriesData.map(([country, value], index) => {
+              return (
+                <option value={value} key={index}>
+                  {country}
+                </option>
+              );
+            })}
+        </select>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) =>
+            e.target.value.match(/[0-9]/gm)
+              ? setInputValue(e.target.value)
+              : alert("please use numbers only")
+          }
+        />
+        <span className="results">£{total}</span>
+      </div>
     </div>
   );
 }
-
 export default App;
